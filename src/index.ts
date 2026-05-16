@@ -7,7 +7,9 @@ import llmWorkflow from "./SequentialWorkflow/llm-workflow";
 import promptChain from "./SequentialWorkflow/prompt-chaining";
 
 import batsmanWorkflow from './ParallelWorkflow/batsman-workflow';
-import essayWorkflow from './ParallelWorkflow/essay-workflow'
+import essayWorkflow from './ParallelWorkflow/essay-workflow';
+
+import reviewReplyWorkflow from './ConditionalWorkflow/review-reply-workflow';
 
 // helloWorld();
 
@@ -18,5 +20,8 @@ import essayWorkflow from './ParallelWorkflow/essay-workflow'
 
 // Parallel Workflow
 // batsmanWorkflow();
-essayWorkflow();
+// essayWorkflow();
+
+// Conditional Workflow
+reviewReplyWorkflow();
 
