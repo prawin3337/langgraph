@@ -12,6 +12,8 @@ const run = async () => {
 
     const structuredModel = model.withStructuredOutput(EvaluationSchema);
 
+    // Previous implementation for reference:
+    /*
     const stateSchema = new StateSchema({
         essay: z.string(),
         language_feedback: z.string(),
@@ -27,32 +29,77 @@ const run = async () => {
         ),
         avg_score: z.number()
     });
+    */
+
+    // New implementation: store individual_scores as array of objects
+    const scoreObjectSchema = z.object({
+        langFeedbackScore: z.number().optional(),
+        analysisScore: z.number().optional(),
+        clarityScore: z.number().optional()
+    });
+    const stateSchema = new StateSchema({
+        essay: z.string(),
+        language_feedback: z.string(),
+        analysis_feedback: z.string(),
+        clarity_feedback: z.string(),
+        overall_feedback: z.string(),
+        individual_scores: new ReducedValue(
+            z.array(scoreObjectSchema).default(() => []),
+            {
+                inputSchema: z.array(scoreObjectSchema),
+                reducer: (current, next) => current.concat(next)
+            }
+        ),
+        avg_score: z.number()
+    });
 
     type EssayState = typeof stateSchema.State;
 
     const evaluateLangualge = async (state: EssayState) => {
         const prompt = `Evaluate the language quality of the following essay and provide a feedback and assign a score out of 10 \n ${state.essay}`;
         const output = await structuredModel.invoke(prompt);
-        return {language_feedback: output.feedback, individual_scores: [output.score]}
+        return {
+            language_feedback: output.feedback,
+            individual_scores: [{ langFeedbackScore: output.score }]
+        };
     }
 
     const evaluateAnalysis = async (state: EssayState) => {
         const prompt = `Evaluate the depth of analysis of the following essay and provide a feedback and assign a score out of 10 \n ${state.essay}`;
         const output = await structuredModel.invoke(prompt);
-        return {analysis_feedback: output.feedback, individual_scores: [output.score]}
+        return {
+            analysis_feedback: output.feedback,
+            individual_scores: [{ analysisScore: output.score }] // Previous implementation for reference: {analysis_feedback: output.feedback, individual_scores: [output.score]}
+        };
     }
 
     const evaluateThought = async (state: EssayState) => {
         const prompt = `Evaluate the clarity of thought of the following essay and provide a feedback and assign a score out of 10 \n ${state.essay}`;
         const output = await structuredModel.invoke(prompt);
-        return {clarity_feedback: output.feedback, individual_scores: [output.score]}
+        return {
+            clarity_feedback: output.feedback,
+            individual_scores: [{ clarityScore: output.score }]
+        };
     }
 
+    // Previous implementation for reference:
+    /*
     const finalEvaluation = async (state: EssayState) => {
         const prompt = `Based on the following feedbacks create a summarized feedback \n language feedback - ${state.language_feedback} \n depth of analysis feedback - ${state.analysis_feedback} \n clarity of thought feedback - ${state.clarity_feedback}`;
         const overallFeedback = (await model.invoke(prompt)).content;
         const sum = state.individual_scores.reduce((a, b) => a + b, 0);
         const avgScore = sum/state.individual_scores.length;
+        return {overall_feedback: overallFeedback, avg_score: avgScore};
+    }
+    */
+    // New implementation:
+    const finalEvaluation = async (state: EssayState) => {
+        const prompt = `Based on the following feedbacks create a summarized feedback \n language feedback - ${state.language_feedback} \n depth of analysis feedback - ${state.analysis_feedback} \n clarity of thought feedback - ${state.clarity_feedback}`;
+        const overallFeedback = (await model.invoke(prompt)).content;
+        // Flatten all scores into a single array for average calculation
+        const allScores = state.individual_scores.flatMap(obj => Object.values(obj).filter(v => typeof v === 'number'));
+        const sum = allScores.reduce((a, b) => a + b, 0);
+        const avgScore = allScores.length > 0 ? sum / allScores.length : 0;
         return {overall_feedback: overallFeedback, avg_score: avgScore};
     }
 
