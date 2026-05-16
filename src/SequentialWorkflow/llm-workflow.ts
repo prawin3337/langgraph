@@ -4,7 +4,7 @@ import z from 'zod';
 
 const run = async () => {
 
-    const model = new ChatOpenAI('gpt-4');
+    const model = new ChatOpenAI('gpt-4o-mini');
 
     type QAState = { question: string; answer: string };
     const schema = {

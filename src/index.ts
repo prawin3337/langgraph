@@ -6,8 +6,17 @@ import BMICal from "./SequentialWorkflow/bmi-cal-workflow";
 import llmWorkflow from "./SequentialWorkflow/llm-workflow";
 import promptChain from "./SequentialWorkflow/prompt-chaining";
 
+import batsmanWorkflow from './ParallelWorkflow/batsman-workflow';
+import essayWorkflow from './ParallelWorkflow/essay-workflow'
+
 // helloWorld();
+
+// Sequential Workflow
 // BMICal();
 // llmWorkflow();
-promptChain();
+// promptChain();
+
+// Parallel Workflow
+// batsmanWorkflow();
+essayWorkflow();
 
