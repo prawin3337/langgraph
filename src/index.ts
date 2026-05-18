@@ -11,6 +11,8 @@ import essayWorkflow from './ParallelWorkflow/essay-workflow';
 
 import reviewReplyWorkflow from './ConditionalWorkflow/review-reply-workflow';
 
+import tweetGenerator from './IterativeWorkflows/tweet-generator-workflow';
+
 // helloWorld();
 
 // Sequential Workflow
@@ -23,5 +25,7 @@ import reviewReplyWorkflow from './ConditionalWorkflow/review-reply-workflow';
 // essayWorkflow();
 
 // Conditional Workflow
-reviewReplyWorkflow();
+// reviewReplyWorkflow();
 
+// Iterative Workflow
+tweetGenerator();

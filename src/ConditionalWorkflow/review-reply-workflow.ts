@@ -1,6 +1,6 @@
 import {END, START, StateGraph, StateSchema} from '@langchain/langgraph';
 import {ChatOpenAI} from '@langchain/openai'
-import z, { any } from 'zod';
+import z from 'zod';
 
 const run = async () => {
     const model = new ChatOpenAI('gpt-4o-mini');
