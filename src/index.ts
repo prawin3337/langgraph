@@ -15,6 +15,8 @@ import tweetGenerator from './IterativeWorkflows/tweet-generator-workflow';
 
 import chatbot from './Persistance/chatbot';
 
+import streaming from './Streaming/streaming';
+
 // helloWorld();
 
 // Sequential Workflow
@@ -32,4 +34,6 @@ import chatbot from './Persistance/chatbot';
 // Iterative Workflow
 // tweetGenerator();
 
-chatbot();
+// chatbot();
+
+streaming();
