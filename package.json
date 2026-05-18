@@ -11,5 +11,8 @@
   "type": "module",
   "scripts": {
     "start": "tsx ./src/index"
+  },
+  "devDependencies": {
+    "@types/node": "^25.8.0"
   }
 }
