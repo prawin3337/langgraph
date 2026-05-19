@@ -7,6 +7,7 @@ import {
     MemorySaver
 } from '@langchain/langgraph';
 import { tool } from 'langchain';
+import { MultiServerMCPClient } from '@langchain/mcp-adapters';
 import { ToolNode, toolsCondition } from '@langchain/langgraph/prebuilt';
 import {ChatOpenAI} from '@langchain/openai'
 import { BaseMessage, HumanMessage } from 'langchain';
@@ -71,7 +72,19 @@ export default async () => {
         }
     )
 
-    const tools = [calculatorTool, getStockPrise];
+    const mcpClient = new MultiServerMCPClient({
+        mcpServers: {
+            remote: {
+                url: 'https://splendid-gold-dingo.fastmcp.app/mcp',
+                transport: 'http'
+            }
+        }
+    });
+
+    const mcpTools = await mcpClient.getTools();
+    // console.log('mcp tools', mcpTools)
+
+    const tools = [calculatorTool, getStockPrise, ...mcpTools];
     const toolNode = new ToolNode(tools)
     const llmWithTools = llm.bindTools(tools);
 
