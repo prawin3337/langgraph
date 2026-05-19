@@ -17,6 +17,8 @@ import chatbot from './Persistance/chatbot';
 
 import streaming from './Streaming/streaming';
 
+import tools from './Tools/chatbot';
+
 // helloWorld();
 
 // Sequential Workflow
@@ -36,4 +38,6 @@ import streaming from './Streaming/streaming';
 
 // chatbot();
 
-streaming();
+// streaming();
+
+tools();
