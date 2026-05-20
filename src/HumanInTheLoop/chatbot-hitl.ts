@@ -12,7 +12,7 @@ import {
 } from '@langchain/langgraph';
 import { ToolNode, toolsCondition } from '@langchain/langgraph/prebuilt';
 import { ChatOpenAI } from '@langchain/openai';
-import { AIMessage, BaseMessage, HumanMessage, tool } from 'langchain';
+import { BaseMessage, HumanMessage, tool } from 'langchain';
 import { stdin, stdout } from 'process';
 import { createInterface } from 'readline/promises';
 import z, { symbol } from 'zod';
@@ -65,11 +65,11 @@ export default async () => {
         {
             name: 'purchase-stock',
             description: `
-            Simulate purchasing a given quantity of a stock symbol.
+                Simulate purchasing a given quantity of a stock symbol.
 
-            HUMAN-IN-THE-LOOP:
-            Before confirming the purchase, this tool will interrupt
-            and wait for a human decision ("yes" / anything else).
+                HUMAN-IN-THE-LOOP:
+                Before confirming the purchase, this tool will interrupt
+                and wait for a human decision ("yes" / anything else).
             `,
             schema: z.object({
                 symbol: z.string(),
@@ -108,7 +108,6 @@ export default async () => {
         .addNode('tools', toolNode)
         
         .addEdge(START, 'chat_node')
-
         .addConditionalEdges('chat_node', toolsCondition)
         .addEdge('tools', 'chat_node')
 
@@ -144,6 +143,4 @@ export default async () => {
 
         console.log(result?.messages.at(-1)?.content);
     }
-
-
 }
