@@ -14,10 +14,10 @@ import streaming from './Streaming/streaming';
 import tools from './Tools/chatbot';
 import interrupt from './HumanInTheLoop/interrupt';
 import hitl from './HumanInTheLoop/hitl';
-// import chatbotHitl from './HumanInTheLoop/chatbot-hitl';
-// import subgraphs from './Subgrapth/subgraphs';
+import chatbotHitl from './HumanInTheLoop/chatbot-hitl';
+import subgraphs from './Subgrapth/subgraphs';
 import subgraphsSharedState from './Subgrapth/subgraphs_shared_state';
-
+import stmPersistence from './PostgressDB/stm-persistence';
 
 // helloWorld();
 
@@ -47,4 +47,6 @@ import subgraphsSharedState from './Subgrapth/subgraphs_shared_state';
 // chatbotHitl();
 
 // subgraphs();
-subgraphsSharedState();
+// subgraphsSharedState();
+
+stmPersistence();
