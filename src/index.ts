@@ -18,6 +18,7 @@ import chatbotHitl from './HumanInTheLoop/chatbot-hitl';
 import subgraphs from './Subgrapth/subgraphs';
 import subgraphsSharedState from './Subgrapth/subgraphs_shared_state';
 import stmPersistence from './PostgressDB/stm-persistence';
+import bwaBasic from './BlogWritingAgent/bwa-basic';
 
 // helloWorld();
 
@@ -49,4 +50,6 @@ import stmPersistence from './PostgressDB/stm-persistence';
 // subgraphs();
 // subgraphsSharedState();
 
-stmPersistence();
+// stmPersistence();
+
+bwaBasic();
